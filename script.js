@@ -26,10 +26,17 @@ const Gameboard = (function () {
 	// Check if theres a winner
 
 	// Update board with players move
-	function updateBoard(move, symbol) {}
+	function updateBoard(row, column, symbol) {
+		board[row][column] = symbol;
+	}
+
+	// Function to print baord to console, can be deleted
+	function printBoard() {
+		console.log(board.map((row) => row.join(" | ")).join("\n"));
+	}
 
 	// Return methods
-	return { initBoard, getBoard };
+	return { initBoard, getBoard, updateBoard, printBoard };
 })();
 
 // Player object
@@ -38,7 +45,7 @@ const createPlayer = function (name, symbol) {
 };
 
 // Game flow object
-const GameController = function () {
+const GameController = (function () {
 	const board = Gameboard.getBoard();
 
 	const playerOne = createPlayer("Elliott", "X");
@@ -54,15 +61,29 @@ const GameController = function () {
 
 	const getActivePlayer = () => activePlayer;
 
-	// Play round function
-	// get the players move via row and column
-	// Gameboard.updateBoard(move, activePlayer.symbol) update board with players move
-	// Check if move results in win and announce
-	// Check if move results in draw and announce
-	// Switch player
+	const playRound = (row, column) => {
+		console.log(`It's ${activePlayer.name}'s turn`);
 
-	return { players };
-};
+		if (board[row][column] === null) {
+			Gameboard.updateBoard(row, column, activePlayer.symbol);
+			Gameboard.printBoard();
+		} else {
+			console.log("This space has been taken! Try again!");
+			return;
+		}
 
-const players = GameController();
-console.log(players);
+		// Check for win
+
+		// Check for draw
+
+		switchActivePlayer();
+	};
+
+	return { playRound, getActivePlayer };
+})();
+
+const board = Gameboard.getBoard();
+GameController.playRound(1, 1);
+GameController.playRound(1, 2);
+GameController.playRound(1, 2);
+GameController.playRound(2, 2);
