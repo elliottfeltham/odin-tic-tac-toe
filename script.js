@@ -22,8 +22,35 @@ const Gameboard = (function () {
 	// Create starting board
 	initBoard();
 
-	// Check if gameboard is full
 	// Check if theres a winner
+	function checkWin(board, symbol) {
+		// Loop through each row and check for matching symbols
+		for (let i = 0; i < rows; i++) {
+			if (board[i].every((cell) => cell === symbol)) {
+				return true;
+			}
+		}
+		// Loop through each column and check for matching symbols
+		for (let j = 0; j < columns; j++) {
+			if (board.every((row) => row[j] === symbol)) {
+				return true;
+			}
+		}
+
+		// Check diagonals for matching symbols
+
+		return false;
+	}
+
+	// Check if gameboard is full
+	function checkDraw(board) {
+		const boardArr = board.flat();
+		if (boardArr.some((cell) => cell === null)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	// Update board with players move
 	function updateBoard(row, column, symbol) {
@@ -36,7 +63,14 @@ const Gameboard = (function () {
 	}
 
 	// Return methods
-	return { initBoard, getBoard, updateBoard, printBoard };
+	return {
+		initBoard,
+		getBoard,
+		updateBoard,
+		printBoard,
+		checkDraw,
+		checkWin,
+	};
 })();
 
 // Player object
@@ -61,20 +95,31 @@ const GameController = (function () {
 
 	const getActivePlayer = () => activePlayer;
 
-	const playRound = (row, column) => {
+	const logActivePlayer = () =>
 		console.log(`It's ${activePlayer.name}'s turn`);
+
+	const playRound = (row, column) => {
+		logActivePlayer();
 
 		if (board[row][column] === null) {
 			Gameboard.updateBoard(row, column, activePlayer.symbol);
-			Gameboard.printBoard();
+			Gameboard.printBoard(); // Delete once UI complete
 		} else {
 			console.log("This space has been taken! Try again!");
 			return;
 		}
 
 		// Check for win
-
+		if (Gameboard.checkWin(board, activePlayer.symbol)) {
+			console.log(`${activePlayer.name} wins!`);
+			// Add end game function
+			return;
+		}
 		// Check for draw
+		if (Gameboard.checkDraw(board)) {
+			console.log("It's a draw!");
+			return;
+		}
 
 		switchActivePlayer();
 	};
@@ -87,3 +132,9 @@ GameController.playRound(1, 1);
 GameController.playRound(1, 2);
 GameController.playRound(1, 2);
 GameController.playRound(2, 2);
+GameController.playRound(0, 2);
+GameController.playRound(0, 1);
+GameController.playRound(0, 0);
+GameController.playRound(2, 1);
+GameController.playRound(2, 0);
+GameController.playRound(1, 0);
