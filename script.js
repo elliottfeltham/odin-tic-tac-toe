@@ -38,14 +38,28 @@ const Gameboard = (function () {
 		}
 
 		// Check diagonals for matching symbols
+		if (
+			board[0][0] === symbol &&
+			board[1][1] === symbol &&
+			board[2][2] === symbol
+		) {
+			return true;
+		}
+
+		if (
+			board[0][2] === symbol &&
+			board[1][1] === symbol &&
+			board[2][0] === symbol
+		) {
+			return true;
+		}
 
 		return false;
 	}
 
 	// Check if gameboard is full
 	function checkDraw(board) {
-		const boardArr = board.flat();
-		if (boardArr.some((cell) => cell === null)) {
+		if (board.flat().some((cell) => cell === null)) {
 			return false;
 		} else {
 			return true;
@@ -112,12 +126,13 @@ const GameController = (function () {
 		// Check for win
 		if (Gameboard.checkWin(board, activePlayer.symbol)) {
 			console.log(`${activePlayer.name} wins!`);
-			// Add end game function
+			Gameboard.initBoard();
 			return;
 		}
 		// Check for draw
 		if (Gameboard.checkDraw(board)) {
 			console.log("It's a draw!");
+			Gameboard.initBoard();
 			return;
 		}
 
@@ -128,12 +143,12 @@ const GameController = (function () {
 })();
 
 const board = Gameboard.getBoard();
-GameController.playRound(1, 1);
-GameController.playRound(1, 2);
-GameController.playRound(1, 2);
-GameController.playRound(2, 2);
+GameController.playRound(0, 0);
 GameController.playRound(0, 2);
-GameController.playRound(0, 1);
+GameController.playRound(1, 0);
+GameController.playRound(1, 1);
+GameController.playRound(2, 2);
+GameController.playRound(2, 0);
 GameController.playRound(0, 0);
 GameController.playRound(2, 1);
 GameController.playRound(2, 0);
