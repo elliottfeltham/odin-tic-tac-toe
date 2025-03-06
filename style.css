@@ -60,6 +60,35 @@ h6 {
 
 /* -- Layout Styles -- */
 
+.page-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.board {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+}
+
+h1 {
+	margin: 2rem;
+}
+
+.centered {
+	text-align: center;
+}
+
 /* -- Content Styles -- */
 
+.board {
+	height: 450px;
+	width: 450px;
+	border: 1px solid black;
+}
+
+.cell {
+	border: 1px solid black;
+}
 /* -- Media Queries -- */
