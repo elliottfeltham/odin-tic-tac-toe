@@ -73,7 +73,7 @@ const Gameboard = (function () {
 
 	// Return methods
 	return {
-		initBoard,
+		initBoard, // Get rid once resetBoard is functioning
 		getBoard,
 		updateBoard,
 		checkDraw,
@@ -119,21 +119,25 @@ const GameController = (function () {
 
 		// Check for win
 		if (Gameboard.checkWin(board, activePlayer.symbol)) {
-			console.log(`${activePlayer.name} wins!`);
-			Gameboard.initBoard();
-			return;
+			DisplayController.displayWinner(activePlayer.name);
+			// Gameboard.initBoard();
+		} else if (Gameboard.checkDraw(board)) {
+			DisplayController.displayDraw();
+		} else {
+			switchActivePlayer();
 		}
-		// Check for draw
-		if (Gameboard.checkDraw(board)) {
-			console.log("It's a draw!");
-			Gameboard.initBoard();
-			return;
-		}
-
-		switchActivePlayer();
 	};
 
-	return { playRound, getActivePlayer };
+	function getPlayerName() {
+		// Open dialog at start of game to get players names
+	}
+
+	function resetGame() {
+		activePlayer = players[0];
+		Gameboard.initBoard();
+	}
+
+	return { playRound, getActivePlayer, resetGame, switchActivePlayer };
 })();
 
 const DisplayController = (function () {
@@ -143,6 +147,9 @@ const DisplayController = (function () {
 	//Cache DOM
 	const boardDisplay = document.querySelector(".board");
 	const playerTurnDiv = document.querySelector(".turn");
+	const winnerDialog = document.querySelector(".winner-dialog");
+	const resetButton = document.querySelector(".reset-button");
+	const winMessage = document.querySelector(".win-message");
 
 	const updateScreen = () => {
 		const activePlayer = game.getActivePlayer();
@@ -171,14 +178,25 @@ const DisplayController = (function () {
 		updateScreen();
 	}
 
-	// add click event listeners
+	function displayWinner(name) {
+		winnerDialog.showModal();
+		winMessage.innerHTML = `${name} Wins!!!`;
+	}
+
+	function resetDisplay() {
+		winnerDialog.close();
+		GameController.resetGame();
+		updateScreen();
+	}
+
+	// Event listeners
 	boardDisplay.addEventListener("click", symbolClickHandler);
+	resetButton.addEventListener("click", resetDisplay);
 
 	// call playRound(rowIndex, colIndex)
 	updateScreen();
 
-	// Testing Purposes
-	return { updateScreen };
+	return { displayWinner };
 })();
 
 // Gameboard.getBoard();
