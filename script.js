@@ -71,17 +71,11 @@ const Gameboard = (function () {
 		board[row][column] = symbol;
 	}
 
-	// Function to print baord to console, can be deleted
-	function printBoard() {
-		console.log(board.map((row) => row.join(" | ")).join("\n"));
-	}
-
 	// Return methods
 	return {
 		initBoard,
 		getBoard,
 		updateBoard,
-		printBoard,
 		checkDraw,
 		checkWin,
 	};
@@ -117,9 +111,9 @@ const GameController = (function () {
 
 		if (board[row][column] === null) {
 			Gameboard.updateBoard(row, column, activePlayer.symbol);
-			Gameboard.printBoard(); // Delete once UI complete
 		} else {
 			console.log("This space has been taken! Try again!");
+			console.log(row, column);
 			return;
 		}
 
@@ -142,14 +136,60 @@ const GameController = (function () {
 	return { playRound, getActivePlayer };
 })();
 
-const board = Gameboard.getBoard();
-GameController.playRound(0, 0);
-GameController.playRound(0, 2);
-GameController.playRound(1, 0);
-GameController.playRound(1, 1);
-GameController.playRound(2, 2);
-GameController.playRound(2, 0);
-GameController.playRound(0, 0);
-GameController.playRound(2, 1);
-GameController.playRound(2, 0);
-GameController.playRound(1, 0);
+const DisplayController = (function () {
+	const game = GameController;
+	const board = Gameboard.getBoard();
+
+	//Cache DOM
+	const boardDisplay = document.querySelector(".board");
+	const playerTurnDiv = document.querySelector(".turn");
+
+	const updateScreen = () => {
+		const activePlayer = game.getActivePlayer();
+		playerTurnDiv.textContent = `It's ${activePlayer.name}'s Turn!`;
+
+		boardDisplay.innerHTML = null;
+
+		// Create buttons for each position on grid
+		board.forEach((row, rowIndex) => {
+			row.forEach((cell, colIndex) => {
+				const boardButton = document.createElement("button");
+				boardButton.classList.add("cell");
+				boardButton.dataset.row = rowIndex;
+				boardButton.dataset.col = colIndex;
+				boardButton.textContent = cell ?? "";
+				boardDisplay.append(boardButton);
+			});
+		});
+	};
+
+	function symbolClickHandler(event) {
+		const row = event.target.dataset.row;
+		const column = event.target.dataset.col;
+
+		game.playRound(row, column);
+		updateScreen();
+	}
+
+	// add click event listeners
+	boardDisplay.addEventListener("click", symbolClickHandler);
+
+	// call playRound(rowIndex, colIndex)
+	updateScreen();
+
+	// Testing Purposes
+	return { updateScreen };
+})();
+
+// Gameboard.getBoard();
+
+// GameController.playRound(0, 0);
+// GameController.playRound(0, 2);
+// GameController.playRound(1, 0);
+// GameController.playRound(1, 1);
+// GameController.playRound(2, 2);
+// GameController.playRound(2, 0);
+// GameController.playRound(0, 0);
+// GameController.playRound(2, 1);
+// GameController.playRound(2, 0);
+// GameController.playRound(1, 0);

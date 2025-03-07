@@ -17,6 +17,7 @@ body {
 
 body {
 	line-height: 1.5;
+	font-family: "Roboto";
 }
 
 img,
@@ -33,6 +34,10 @@ button,
 textarea,
 select {
 	font: inherit;
+}
+
+button {
+	all: unset;
 }
 
 p,
@@ -72,6 +77,10 @@ h6 {
 	grid-template-rows: 1fr 1fr 1fr;
 }
 
+.turn {
+	margin: 2rem;
+}
+
 h1 {
 	margin: 2rem;
 }
@@ -90,5 +99,7 @@ h1 {
 
 .cell {
 	border: 1px solid black;
+	text-align: center;
+	font-size: 6rem;
 }
 /* -- Media Queries -- */
