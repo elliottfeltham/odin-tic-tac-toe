@@ -18,6 +18,8 @@ body {
 body {
 	line-height: 1.5;
 	font-family: "Roboto";
+	background-color: #2e2e2e;
+	color: #fff;
 }
 
 img,
@@ -110,13 +112,18 @@ h1 {
 }
 
 .cell {
-	border: 1px solid black;
+	border: 1px solid #fff;
 	text-align: center;
 	font-size: 6rem;
 }
 
 .cell:hover {
-	background-color: #eee;
+	background-color: #3e3e3e;
+}
+
+dialog {
+	background-color: #2e2e2e;
+	color: #fff;
 }
 
 button {
@@ -127,7 +134,8 @@ button {
 	margin: 5rem;
 }
 
-.reset-button {
+.dialog-content button {
 	margin: auto;
+	border: 1px solid black;
 }
 /* -- Media Queries -- */
