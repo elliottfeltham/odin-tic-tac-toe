@@ -185,6 +185,11 @@ const DisplayController = (function () {
 		winMessage.innerHTML = `${name} Wins!!!`;
 	}
 
+	function displayDraw(name) {
+		winnerDialog.showModal();
+		winMessage.innerHTML = "It's a draw!";
+	}
+
 	function resetDisplay() {
 		winnerDialog.close();
 		GameController.resetGame();
@@ -205,7 +210,7 @@ const DisplayController = (function () {
 	// call playRound(rowIndex, colIndex)
 	updateScreen();
 
-	return { displayWinner };
+	return { displayWinner, displayDraw };
 })();
 
 // Gameboard.getBoard();
