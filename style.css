@@ -42,6 +42,10 @@ button {
 	all: unset;
 }
 
+dialog {
+	margin: auto;
+}
+
 p,
 h1,
 h2,
@@ -91,10 +95,6 @@ h1 {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
-}
-
-.winner-dialog {
-	margin: auto;
 }
 
 .dialog-content {

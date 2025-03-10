@@ -90,8 +90,8 @@ const createPlayer = function (name, symbol) {
 const GameController = (function () {
 	const board = Gameboard.getBoard();
 
-	const playerOne = createPlayer("Elliott", "X");
-	const playerTwo = createPlayer("Lucy", "O");
+	const playerOne = createPlayer("playerOneName", "X");
+	const playerTwo = createPlayer("playerTwoName", "O");
 
 	const players = [playerOne, playerTwo];
 
@@ -128,10 +128,6 @@ const GameController = (function () {
 		}
 	};
 
-	function getPlayerName() {
-		// Open dialog at start of game to get players names
-	}
-
 	function resetGame() {
 		activePlayer = players[0];
 		Gameboard.initBoard();
@@ -147,6 +143,12 @@ const DisplayController = (function () {
 	//Cache DOM
 	const boardDisplay = document.querySelector(".board");
 	const playerTurnDiv = document.querySelector(".turn");
+	// Player Dialog
+	const playersDialog = document.querySelector(".players-dialog");
+	const playerOne = document.querySelector("#player1");
+	const playerTwo = document.querySelector("#player2");
+	const playButton = document.querySelector(".play-button");
+	// Winner Dialog
 	const winnerDialog = document.querySelector(".winner-dialog");
 	const resetButton = document.querySelector(".reset-button");
 	const winMessage = document.querySelector(".win-message");
@@ -189,9 +191,16 @@ const DisplayController = (function () {
 		updateScreen();
 	}
 
+	function getPlayerName() {
+		// Open dialog at start of game to get players names
+		playersDialog.showModal();
+	}
+
 	// Event listeners
 	boardDisplay.addEventListener("click", symbolClickHandler);
 	resetButton.addEventListener("click", resetDisplay);
+	addEventListener("DOMContentLoaded", getPlayerName);
+	// playButton.addEventListener("click");
 
 	// call playRound(rowIndex, colIndex)
 	updateScreen();
