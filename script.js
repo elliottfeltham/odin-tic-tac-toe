@@ -90,8 +90,8 @@ const createPlayer = function (name, symbol) {
 const GameController = (function () {
 	const board = Gameboard.getBoard();
 
-	const playerOne = createPlayer("playerOneName", "X");
-	const playerTwo = createPlayer("playerTwoName", "O");
+	const playerOne = createPlayer("Elliott", "X");
+	const playerTwo = createPlayer("Lucy", "O");
 
 	const players = [playerOne, playerTwo];
 
@@ -201,27 +201,22 @@ const DisplayController = (function () {
 		playersDialog.showModal();
 	}
 
+	function submitPlayerName() {
+		playersDialog.close();
+	}
+
 	// Event listeners
 	boardDisplay.addEventListener("click", symbolClickHandler);
 	resetButton.addEventListener("click", resetDisplay);
 	addEventListener("DOMContentLoaded", getPlayerName);
-	// playButton.addEventListener("click");
+	playButton.addEventListener("click", submitPlayerName);
 
 	// call playRound(rowIndex, colIndex)
 	updateScreen();
 
-	return { displayWinner, displayDraw };
+	// CANT ACCESS DISPLAY CONTROLLER BEFORE INITIALIZATION, MAYBE MOVE THIS TO GAMECONTROLLER
+	// const playerOneName = playerOne.value;
+	// const playerTwoName = playerTwo.value;
+
+	return { displayWinner, displayDraw, playerOneName, playerTwoName };
 })();
-
-// Gameboard.getBoard();
-
-// GameController.playRound(0, 0);
-// GameController.playRound(0, 2);
-// GameController.playRound(1, 0);
-// GameController.playRound(1, 1);
-// GameController.playRound(2, 2);
-// GameController.playRound(2, 0);
-// GameController.playRound(0, 0);
-// GameController.playRound(2, 1);
-// GameController.playRound(2, 0);
-// GameController.playRound(1, 0);
