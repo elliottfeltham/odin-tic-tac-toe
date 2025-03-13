@@ -103,6 +103,10 @@ h1 {
 	justify-content: center;
 }
 
+input {
+	margin: 1rem;
+}
+
 /* -- Content Styles -- */
 
 .board {
@@ -128,6 +132,10 @@ dialog {
 
 button {
 	cursor: pointer;
+}
+
+dialog::backdrop {
+	background-color: #2e2e2e;
 }
 
 .win-message {

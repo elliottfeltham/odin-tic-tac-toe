@@ -90,10 +90,15 @@ const createPlayer = function (name, symbol) {
 const GameController = (function () {
 	const board = Gameboard.getBoard();
 
-	const playerOne = createPlayer("Elliott", "X");
-	const playerTwo = createPlayer("Lucy", "O");
+	const playerOne = createPlayer("Player One", "X");
+	const playerTwo = createPlayer("Player Two", "O");
 
 	const players = [playerOne, playerTwo];
+
+	function updatePlayerNames(nameOne, nameTwo) {
+		players[0].name = nameOne || "Player One";
+		players[1].name = nameTwo || "Player Two";
+	}
 
 	let activePlayer = players[0];
 
@@ -133,7 +138,13 @@ const GameController = (function () {
 		Gameboard.initBoard();
 	}
 
-	return { playRound, getActivePlayer, resetGame, switchActivePlayer };
+	return {
+		playRound,
+		getActivePlayer,
+		resetGame,
+		switchActivePlayer,
+		updatePlayerNames,
+	};
 })();
 
 const DisplayController = (function () {
@@ -182,7 +193,7 @@ const DisplayController = (function () {
 
 	function displayWinner(name) {
 		winnerDialog.showModal();
-		winMessage.innerHTML = `${name} Wins!!!`;
+		winMessage.innerHTML = `${name} wins!!!`;
 	}
 
 	function displayDraw(name) {
@@ -193,30 +204,29 @@ const DisplayController = (function () {
 	function resetDisplay() {
 		winnerDialog.close();
 		GameController.resetGame();
+		getPlayerNames();
 		updateScreen();
 	}
 
-	function getPlayerName() {
+	function getPlayerNames() {
 		// Open dialog at start of game to get players names
 		playersDialog.showModal();
 	}
 
-	function submitPlayerName() {
+	function submitPlayerName(event) {
+		event.preventDefault();
+		game.updatePlayerNames(playerOne.value, playerTwo.value);
 		playersDialog.close();
+		updateScreen();
 	}
 
 	// Event listeners
 	boardDisplay.addEventListener("click", symbolClickHandler);
 	resetButton.addEventListener("click", resetDisplay);
-	addEventListener("DOMContentLoaded", getPlayerName);
+	addEventListener("DOMContentLoaded", getPlayerNames);
 	playButton.addEventListener("click", submitPlayerName);
 
-	// call playRound(rowIndex, colIndex)
 	updateScreen();
 
-	// CANT ACCESS DISPLAY CONTROLLER BEFORE INITIALIZATION, MAYBE MOVE THIS TO GAMECONTROLLER
-	// const playerOneName = playerOne.value;
-	// const playerTwoName = playerTwo.value;
-
-	return { displayWinner, displayDraw, playerOneName, playerTwoName };
+	return { displayWinner, displayDraw };
 })();
