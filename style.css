@@ -134,10 +134,6 @@ button {
 	cursor: pointer;
 }
 
-dialog::backdrop {
-	background-color: #2e2e2e;
-}
-
 .win-message {
 	margin: 5rem;
 }
@@ -146,4 +142,7 @@ dialog::backdrop {
 	margin: auto;
 	border: 1px solid black;
 }
-/* -- Media Queries -- */
+
+dialog::backdrop {
+	background-color: #2e2e2e;
+}
