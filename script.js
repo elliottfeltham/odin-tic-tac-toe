@@ -73,7 +73,7 @@ const Gameboard = (function () {
 
 	// Return methods
 	return {
-		initBoard, // Get rid once resetBoard is functioning
+		initBoard,
 		getBoard,
 		updateBoard,
 		checkDraw,
@@ -125,7 +125,6 @@ const GameController = (function () {
 		// Check for win
 		if (Gameboard.checkWin(board, activePlayer.symbol)) {
 			DisplayController.displayWinner(activePlayer.name);
-			// Gameboard.initBoard();
 		} else if (Gameboard.checkDraw(board)) {
 			DisplayController.displayDraw();
 		} else {
@@ -151,7 +150,7 @@ const DisplayController = (function () {
 	const game = GameController;
 	const board = Gameboard.getBoard();
 
-	//Cache DOM
+	// Cache DOM
 	const boardDisplay = document.querySelector(".board");
 	const playerTurnDiv = document.querySelector(".turn");
 	// Player Dialog
